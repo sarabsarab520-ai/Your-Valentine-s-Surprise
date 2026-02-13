@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Valentine’s Interactive Messages 💌</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', sans-serif;
+    background: linear-gradient(to bottom, #ffe6f0, #ffcccc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  h1 {
+    color: #ff1a1a;
+    font-size: 3em;
+    margin-top: 30px;
+  }
+
+  h2 {
+    color: #ff4d94;
+    font-size: 1.5em;
+    margin: 10px 0 30px 0;
+  }
+
+  .envelopes {
+    display: flex;
+    gap: 40px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .envelope {
+    width: 120px;
+    height: 160px;
+    background: #ff1a1a;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .envelope:hover {
+    transform: scale(1.1);
+  }
+
+  .message {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 350px;
+    background: #ffe6f0;
+    border-radius: 15px;
+    padding: 20px;
+    color: #ff1a1a;
+    font-size: 1.2em;
+    box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    display: none;
+    z-index: 10;
+  }
+
+  .close-btn {
+    margin-top: 15px;
+    padding: 5px 15px;
+    background: #ff4d94;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .heart, .flower {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    animation: floatUp 2s linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
+  }
+
+  .final-message {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw; /* responsive size for mobile */
+    color: #ff1a1a;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    z-index: 100;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .final-message {
+      font-size: 8vw; /* أكبر على الهواتف */
+    }
+
+    .message {
+      font-size: 1em;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Happy Valentine's Day 💌</h1>
+<h2>Click on an envelope to open your special message</h2>
+
+<div class="envelopes">
+  <div class="envelope" data-msg="1"></div>
+  <div class="envelope" data-msg="2"></div>
+  <div class="envelope" data-msg="3"></div>
+</div>
+
+<!-- Three messages -->
+<div class="message" id="message1">
+  <p>
+    "Happy Valentine's Day, my favorite player 🎮❤️<br>
+    Every time I see you lost in a game, I can't help but smile…<br>
+    I love how your focus and passion make even the simplest moments feel epic.<br>
+    Today, I want to give you a special power-up: my heart, fully charged with love and admiration 💖<br>
+    Let's keep winning together, in games and in life."
+  </p>
+  <button class="close-btn">Close</button>
+</div>
+
+<div class="message" id="message2">
+  <p>
+    "To my amazing gamer 💌<br>
+    Behind every screen and controller, I see your heart – brave, kind, and full of dreams.<br>
+    I admire the way you face challenges, the way you laugh, and the way you make even the quietest moments magical.<br>
+    On this Valentine's Day, I just want you to know: you inspire me every day, and I feel so lucky to share this adventure with you 🌸❤️"
+  </p>
+  <button class="close-btn">Close</button>
+</div>
+
+<div class="message" id="message3">
+  <p>
+    "Happy Valentine's Day to the one who holds my heart ❤️<br>
+    Every victory in your games reminds me of the joy you bring into my life, and every defeat shows me how strong and caring you are.<br>
+    You are my favorite co-op partner in every world – virtual or real.<br>
+    Today, I just want to say from the bottom of my heart: I love you more than any high score, leaderboard, or game ever 🎮💖🌹"
+  </p>
+  <button class="close-btn">Close</button>
+</div>
+
+<div class="final-message" id="finalMessage">I LOVE U DOO 💌</div>
+
+<script>
+  const envelopes = document.querySelectorAll('.envelope');
+  const finalMessage = document.getElementById('finalMessage');
+
+  envelopes.forEach(envelope => {
+    envelope.addEventListener('click', () => {
+      const msgId = envelope.dataset.msg;
+      const message = document.getElementById('message' + msgId);
+      message.style.display = 'block';
+
+      // Create floating hearts and flowers
+      for(let i=0; i<30; i++) {
+        createHeartOrFlower();
+      }
+    });
+  });
+
+  document.querySelectorAll('.close-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const message = e.target.parentElement;
+      message.style.display = 'none';
+      finalMessage.style.display = 'block';
+    });
+  });
+
+  function createHeartOrFlower() {
+    const elem = document.createElement('div');
+    elem.className = Math.random() > 0.5 ? 'heart' : 'flower';
+    elem.style.left = Math.random() * window.innerWidth + 'px';
+    elem.style.top = window.innerHeight + 'px';
+    elem.style.backgroundImage = Math.random() > 0.5 ?
+      'url("https://i.ibb.co/4dVZyJS/heart.png")' :
+      'url("https://i.ibb.co/FwLxjKX/flower.png")';
+    elem.style.backgroundSize = 'contain';
+    elem.style.backgroundRepeat = 'no-repeat';
+    document.body.appendChild(elem);
+    setTimeout(() => elem.remove(), 2000);
+  }
+</script>
+
+</body>
+</html>
